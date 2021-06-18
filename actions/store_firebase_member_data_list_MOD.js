@@ -153,7 +153,7 @@ module.exports = {
 
     const fs = require('fs');
     const firebase = mods.require('firebase');
-    const sort = mods.require('fast-sort');
+	const { sort } = mods.require('fast-sort')
 
     if (!fs.existsSync('./data/fbConfig.json')) {
       return console.log(
@@ -176,7 +176,7 @@ module.exports = {
     const dataName = this.evalMessage(data.dataName, cache);
     const showDataGlobally = parseInt(data.showDataGlobally);
     const numberBeforeStart = parseInt(data.numberBeforeStart);
-    const sortType = parseInt(data.sortType);
+    const sortType = parseInt(data.sort);
     const resultLimit = parseInt(
       this.evalMessage(
         data.resultLimit, 
@@ -225,7 +225,8 @@ module.exports = {
         let dataValue = listType[resultListPosition].value;
         const member = showDataGlobally === 0 
           ? cache.server.members.cache.get(listType[resultListPosition].userID)
-          : client.users.cache.get(listType[resultListPosition].userID)
+          : client.users.cache.get(listType[resultListPosition].userID);
+        const username = !!member.username ? member.username : member.user.username;
 
         resultList.push(
           numberBeforeStart === 0
